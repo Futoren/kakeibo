@@ -5,23 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <ScrollView
-        android:layout_above="@+id/liner_holder"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/text_data"
-            android:textSize="22sp"
-            android:textColor="@color/black"
-            android:text="OCR"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </ScrollView>
     <LinearLayout
         android:id="@+id/liner_holder"
         android:layout_alignParentBottom="true"
@@ -42,4 +25,18 @@
             android:text="Copy Text"
             android:layout_margin="8dp"/>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/liner_holder"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="146dp"
+        android:layout_marginTop="191dp"
+        android:layout_marginEnd="137dp"
+        android:layout_marginBottom="348dp"
+        android:src="@android:drawable/ic_menu_camera" />
 </RelativeLayout>
