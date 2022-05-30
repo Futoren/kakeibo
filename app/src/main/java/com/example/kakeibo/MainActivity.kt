@@ -1,29 +1,35 @@
 package com.example.kakeibo
 
-import android.os.Bundle
 import android.Manifest
-import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.example.kakeibo.databinding.ActivityMainBinding
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.util.forEach
+import com.example.kakeibo.databinding.ActivityMainBinding
+import com.google.android.gms.vision.Frame
+import com.google.android.gms.vision.text.TextBlock
+import com.google.android.gms.vision.text.TextRecognizer
 import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
+import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val REQUEST_CAMERA_PERMISSION = 1
-    private val REQUEST_IMAGE_CAPTURE = 100
     private lateinit var currentPhotoPath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,11 +43,10 @@ class MainActivity : AppCompatActivity() {
             requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
         }
         binding.buttonCapture.setOnClickListener { buttonCapture() }
-        Log.d("check1","onCreate")
+        imageReaderNew()
     }
 
     private fun buttonCapture(){
-        Log.d("check2","buttonCapture")
         dispatchTakePictureIntent()
     }
 
@@ -58,7 +63,6 @@ class MainActivity : AppCompatActivity() {
                         "com.example.android.fileprovider",
                         it
                     )
-//                  どちらしか行えない値を使うと空になってしまう
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     showPicture.launch(takePictureIntent)
                 }
@@ -66,13 +70,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var showPicture = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val data: Intent? = result.data
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            binding.imageView.setImageBitmap(imageBitmap)
-        }
-    }
+        ActivityResultContracts.StartActivityForResult()){}
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
@@ -81,11 +79,43 @@ class MainActivity : AppCompatActivity() {
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
+            ".jpeg", /* suffix */
             storageDir /* directory */
         ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
             currentPhotoPath = absolutePath
         }
+    }
+
+    private fun imageReaderNew() {
+        val filepath = File("/storage/self/primary/" +
+                "Android/data/com.example.kakeibo/files/Pictures")
+        val imageFile = filepath.walk().filter { it.name.endsWith(".jpeg") }.first()
+        val fis = FileInputStream(imageFile)
+        val bm = BitmapFactory.decodeStream(fis)
+        val matrix = Matrix()
+        matrix.setRotate(90F)
+        val newbitmap =  Bitmap.createBitmap(
+            bm,
+            0,
+            0,
+            bm.width,
+            bm.height,
+            matrix,
+            false
+        )
+        imageToText(newbitmap)
+        binding.imageView.setImageBitmap(newbitmap)
+    }
+
+    private fun imageToText(image :Bitmap){
+        val recognizer = TextRecognizer.Builder(this).build()
+        val frame = Frame.Builder().setBitmap(image).build()
+        val textBlockSparseArray = recognizer.detect(frame)
+        val stringBuilder = StringBuilder()
+        for (i in 0 until textBlockSparseArray.size()) {
+            val textBlock = textBlockSparseArray.valueAt(i)
+            stringBuilder.append(textBlock.value)
+        }
+        Log.d("textBlock",stringBuilder.toString())
     }
 }
