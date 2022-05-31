@@ -89,20 +89,12 @@ class MainActivity : AppCompatActivity() {
     private fun imageReaderNew() {
         val filepath = File("/storage/self/primary/" +
                 "Android/data/com.example.kakeibo/files/Pictures")
-        val imageFile = filepath.walk().filter { it.name.endsWith(".jpeg") }.first()
+        val imageFile = filepath.walk().filter { it.name.endsWith(".jpeg") }.last()
         val fis = FileInputStream(imageFile)
         val bm = BitmapFactory.decodeStream(fis)
         val matrix = Matrix()
         matrix.setRotate(90F)
-        val newbitmap =  Bitmap.createBitmap(
-            bm,
-            0,
-            0,
-            bm.width,
-            bm.height,
-            matrix,
-            false
-        )
+        val newbitmap =  Bitmap.createBitmap(bm, 0, 0, bm.width, bm.height, matrix, false)
         imageToText(newbitmap)
         binding.imageView.setImageBitmap(newbitmap)
     }
@@ -112,10 +104,16 @@ class MainActivity : AppCompatActivity() {
         val frame = Frame.Builder().setBitmap(image).build()
         val textBlockSparseArray = recognizer.detect(frame)
         val stringBuilder = StringBuilder()
+        var maxTax = 0
+        var tax = 0
         for (i in 0 until textBlockSparseArray.size()) {
             val textBlock = textBlockSparseArray.valueAt(i)
-            stringBuilder.append(textBlock.value)
+            if(Regex("¥").containsMatchIn(textBlock.value.toString())) {
+                tax = textBlock.value.toString().replace("[^0-9]".toRegex(), "")
+                    .toInt()
+                if(tax>maxTax) {maxTax=tax}
+            }
         }
-        Log.d("textBlock",stringBuilder.toString())
+        Log.d("textBlock",maxTax.toString())
     }
 }
