@@ -1,42 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
     <LinearLayout
-        android:id="@+id/liner_holder"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/firstChild"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/todo"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_camera" />
         <Button
             android:id="@+id/button_capture"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Capture"
-            android:layout_margin="8dp"/>
-        <Button
-            android:id="@+id/button_copy"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Copy Text"
-            android:layout_margin="8dp"/>
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="@string/capture" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
+    <LinearLayout
+        android:id="@+id/secondChild"
         android:layout_width="match_parent"
-        android:layout_height="669dp"
-        android:layout_above="@+id/liner_holder"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-2dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        android:src="@android:drawable/ic_menu_camera" />
+        android:layout_height="120dp"
+        android:layout_below="@+id/firstChild"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/capture_value"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/capture_value"
+            android:textSize="30sp"/>
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.5"
+            android:text="@string/add_value" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editLimit"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/secondChild"
+        android:text="@string/limit_value" />
+
+    <LinearLayout
+        android:id="@+id/thirdChild"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@+id/editLimit"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/limit_value"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/limit_value"
+            android:textSize="30sp"/>
+        <Button
+            android:id="@+id/set_limit"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.5"
+            android:text="@string/set_value" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/forthChild"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thirdChild"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/sum_value"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.5"
+            android:text="@string/sum_value"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/check_value"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.5"
+            android:text="@string/check_value"
+            android:textSize="30sp"/>
+    </LinearLayout>
 </RelativeLayout>

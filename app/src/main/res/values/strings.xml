@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">kakeibo</string>
+    <string name="now">Now</string>
+    <string name="limit">Limit</string>
+    <string name="set_value">Set value</string>
+    <string name="capture">Capture</string>
+    <string name="capture_value">capture value</string>
+    <string name="limit_value">Limit Value</string>
+    <string name="add_value">Add Value</string>
+    <string name="todo">TODO</string>
+    <string name="sum_value">Sum Value</string>
+    <string name="check_value">check_value</string>
 </resources>
