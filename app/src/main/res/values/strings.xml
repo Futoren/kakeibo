@@ -4,10 +4,14 @@
     <string name="limit">Limit</string>
     <string name="set_value">Set value</string>
     <string name="capture">Capture</string>
-    <string name="capture_value">capture value</string>
-    <string name="limit_value">Limit Value</string>
+    <string name="capture_value">0</string>
+    <string name="limit_value">0</string>
     <string name="add_value">Add Value</string>
     <string name="todo">TODO</string>
-    <string name="sum_value">Sum Value</string>
-    <string name="check_value">check_value</string>
+    <string name="sum_value">0</string>
+    <string name="check_value"></string>
+    <string name="limit_value_label">limit value</string>
+    <string name="capture_value_label">capture value</string>
+    <string name="sum_value_label">sum value</string>
+    <string name="check_value_label">check value</string>
 </resources>
